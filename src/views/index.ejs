@@ -7,5 +7,17 @@
   <body>
     <h1><%= title %></h1>
     <p>EJS Welcome to <%= title %></p>
+
+    <%- include('widgets/user-info', {
+      user: '铁头马',
+    }) %>
+
+    <%- include('widgets/blog-list.ejs', {
+      blogList: [
+        'JavaScript',
+        'Python'
+      ]
+    }) %>
+
   </body>
 </html>
