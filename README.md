@@ -288,3 +288,59 @@ function get(key){
   return promise
 }
 ```
+
+## Cookie 和 Session
+
+    为什么session适合Redis？  
+    session访问频繁, 对性能要求极高
+    session可不考虑断点丢失的问题(内存的硬伤)
+    session数据量不会太大(相比mysql)
+
+    网站数据为什么不适用redis？
+    操作频率不高
+    断点不能丢失, 不容忍
+    数据量太大, 内存成本太高
+
+## koa配置session
+
+`npm i koa-redis koa-generic-session --save`
+
+``` JS
+  // app.js
+  const session = require('koa-generic-session')
+  const redisStore = require('koa-redis')
+
+  // session 配置
+  app.keys = ['sdfjei_235,']
+  app.use(session({
+    key: 'weibo.sid', // cookie名字, 默认是koa.sid
+    prefix: 'weibo.sesssion:', // redis key的前缀, 默认是koa:sess:
+    cookie: {
+      path: '/',
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000
+    },
+    // ttl: 24 * 60 * 60 * 1000, // redis过期时间, 默认和maxAge保持一致
+    store: redisStore({
+      all: `${REDIS_CONF.host}:${REDIS_CONF.port}`
+    })
+  }))
+```
+
+## 使用session
+
+``` js
+  router.get('/json', (ctx, next)=>{
+    const session = ctx.session;
+    if(session.count  == null){
+      session.count = 0
+    }
+    session.count ++ 
+  })
+```
+
+## jest
+
+``` js
+  
+```

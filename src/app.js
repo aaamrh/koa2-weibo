@@ -6,8 +6,12 @@ const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 
+const session = require('koa-generic-session')
+const redisStore = require('koa-redis')
+
 const index = require('./routes/index')
 const users = require('./routes/users')
+const { REDIS_CONF } = require('./learn/redis/db')
 
 // error handler 页面上显示错误
 onerror(app)
@@ -31,6 +35,22 @@ app.use(async (ctx, next) => {
   const ms = new Date() - start
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
+
+// session 配置
+app.keys = ['sdfjei_235,']
+app.use(session({
+  key: 'weibo.sid', // cookie名字, 默认是koa.sid
+  prefix: 'weibo.sesssion:', // redis key的前缀, 默认是koa:sess:
+  cookie: {
+    path: '/',
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000
+  },
+  // ttl: 24 * 60 * 60 * 1000, // redis过期时间, 默认和maxAge保持一致
+  store: redisStore({
+    all: `${REDIS_CONF.host}:${REDIS_CONF.port}`
+  })
+}))
 
 // routes
 app.use(index.routes(), index.allowedMethods())
