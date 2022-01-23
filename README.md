@@ -341,6 +341,18 @@ function get(key){
 
 ## jest
 
+`npm i jest -D`
+
+```json
+ // package.json
+ // --runInBand 顺序执行 --forceExit执行完退出
+  {
+    "scripts": {
+      "test": "cross-env NODE_ENV=test jest --runInBand --forceExit --colors"
+    },
+  }
+```
+
 ``` js
-  
+  // 测试http请求: 查看 test/json.test.js
 ```
