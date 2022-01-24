@@ -5,15 +5,15 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
-
 const session = require('koa-generic-session')
 const redisStore = require('koa-redis')
 
-const errorView = require('./routes/view/error')
-const index = require('./routes/index')
-const users = require('./routes/users')
 const { REDIS_CONF } = require('./learn/redis/db')
 const { isProd } = require('./learn/redis/env')
+ 
+const errorViewRouter = require('./routes/view/error')
+const userViewRouter = require('./routes/view/user')
+const index = require('./routes/index')
 
 // error handler 页面上显示错误
 let onerrorCong = {}
@@ -62,8 +62,8 @@ app.use(session({
 
 // routes
 app.use(index.routes(), index.allowedMethods())
-app.use(users.routes(), users.allowedMethods())
-app.use(errorView.routes(), errorView.allowedMethods())
+app.use(userViewRouter.routes(), userViewRouter.allowedMethods())
+app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods())
 
 // error-handling 控制台打印错误
 app.on('error', (err, ctx) => {

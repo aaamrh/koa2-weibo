@@ -2,8 +2,8 @@
  * sequelize 同步数据库
  */
 
-require('./model')
 const seq = require('./seq')
+require('./model/index')
 
 
 // 测试链接
