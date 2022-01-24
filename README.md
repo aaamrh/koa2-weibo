@@ -356,3 +356,20 @@ function get(key){
 ``` js
   // 测试http请求: 查看 test/json.test.js
 ```
+
+## 开发环境
+
+### eslint
+
+`npm install eslint  babel-eslint --save-dev`
+
+### debug
+
+``` json
+  "scripts":{
+    "dev": "cross-env NODE_ENV=dev nodemon --inspect=9229 --bin/www bin/www",
+  }
+```
+
+在chrome中输入url: chrome://inspect
+

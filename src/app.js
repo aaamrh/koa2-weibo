@@ -9,12 +9,20 @@ const logger = require('koa-logger')
 const session = require('koa-generic-session')
 const redisStore = require('koa-redis')
 
+const errorView = require('./routes/view/error')
 const index = require('./routes/index')
 const users = require('./routes/users')
 const { REDIS_CONF } = require('./learn/redis/db')
+const { isProd } = require('./learn/redis/env')
 
 // error handler 页面上显示错误
-onerror(app)
+let onerrorCong = {}
+if(isProd){
+  onerrorCong = {
+    redirect: '/error'
+  }
+}
+onerror(app, onerrorCong)
 
 // middlewares
 app.use(bodyparser({
@@ -55,6 +63,7 @@ app.use(session({
 // routes
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
+app.use(errorView.routes(), errorView.allowedMethods())
 
 // error-handling 控制台打印错误
 app.on('error', (err, ctx) => {
