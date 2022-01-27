@@ -1,2 +1,2 @@
-const {set} = require('./cache/_redis')
+const {set} = require('./cache/_redis');
 

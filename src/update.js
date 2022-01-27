@@ -1,4 +1,4 @@
-const { User } = require('./model')
+const { User } = require('./model');
 
 
 !(async ()=>{
@@ -8,5 +8,5 @@ const { User } = require('./model')
     where:{
       userName: 'zhangsan'
     }
-  })
-})
+  });
+});

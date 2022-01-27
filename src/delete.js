@@ -1,10 +1,10 @@
-const {User, Blog} = require('./model')
+const {User, Blog} = require('./model');
 
 !(async ()=>{
   const delBlogRes = await Blog.destroy({
     where : {
       id: 4
     }
-  })
-  console.log(delBlogRes)
-})
+  });
+  console.log(delBlogRes);
+});

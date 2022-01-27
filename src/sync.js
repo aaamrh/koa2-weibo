@@ -1,7 +1,7 @@
-require('./model')
-const seq = require('./seq')
+require('./model');
+const seq = require('./seq');
 
 // 执行同步
-seq.sync({force: true}).then(()=>{
-  process.exit()
-})
+seq.sync({ force: true }).then(() => {
+  process.exit();
+});

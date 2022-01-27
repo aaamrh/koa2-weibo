@@ -1,5 +1,5 @@
-const seq = require('../seq')
-const { STRING, DECIMAL } = require('../types')
+const seq = require('../seq');
+const { STRING, DECIMAL } = require('../types');
 
 const User = seq.define('user',{
   userName: {
@@ -29,6 +29,6 @@ const User = seq.define('user',{
   city: {
     type: STRING,
   }
-})
+});
 
-module.exports = User
+module.exports = User;
