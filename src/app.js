@@ -16,6 +16,7 @@ const errorViewRouter = require('./routes/view/error');
 const userViewRouter = require('./routes/view/user');
 const userAPIRouter = require('./routes/api/user');
 const index = require('./routes/index');
+const { SESSION_SECRET_KEY } = require('./conf/secretKeys');
 
 // error handler 页面上显示错误
 let onerrorCong = {};
@@ -47,7 +48,7 @@ app.use(async (ctx, next) => {
 });
 
 // session 配置
-app.keys = ['sdfjei_235,'];
+app.keys = [SESSION_SECRET_KEY];
 app.use(session({
   key: 'weibo.sid', // cookie名字, 默认是koa.sid
   prefix: 'weibo.sesssion:', // redis key的前缀, 默认是koa:sess:

@@ -1,5 +1,6 @@
 const { register } = require('../../controller/user');
 const { isExist } = require('../../controller/user');
+const doCrypto = require('../../utils/cryp');
 
 const router = require('koa-router')();
 
@@ -9,7 +10,6 @@ router.prefix('/api/user');
 router.post('/register', async (ctx, next) => {
   const {userName, password, gender} = ctx.request.body;
   ctx.body = await register({userName, password, gender});
-   
 });
 
 // 用户名是否存在

@@ -1,4 +1,4 @@
-const { registerUserNameExistInfo, registerUserNameNotExistInfo, registerFailInfo } = require('../model/ErrorInfo');
+const { registerUserNameNotExistInfo, registerFailInfo } = require('../model/ErrorInfo');
 const { SuccessModel, ErrorModel } = require('../model/ResModel');
 const { getUserInfo, createUser } = require('../services/user');
 
@@ -15,7 +15,7 @@ async function isExist(username){
   if (userInfo) {
     return new SuccessModel(userInfo);
   } else {
-    return new ErrorModel(regi);
+    return new ErrorModel(registerUserNameNotExistInfo);
   }
 }
 

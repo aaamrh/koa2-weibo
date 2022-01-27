@@ -1,4 +1,5 @@
 const { User } = require('../db/model/index');
+const doCrypto = require('../utils/cryp');
 const { formatUser } = require('./_format');
 
 /**
@@ -16,7 +17,7 @@ async function getUserInfo (userName, password) {
   }
 
   const result = await User.findOne({
-    attributes: ['id', 'username', 'nickName', 'picture', 'city', 'gender'],
+    attributes: ['id', 'userName', 'nickName', 'picture', 'city', 'gender'],
     where: whereOpt
   });
 
@@ -36,11 +37,11 @@ async function getUserInfo (userName, password) {
 async function createUser ({ userName, password, gender=3, nickName }) {
   const result = await User.create({
     userName,
-    password,
+    password: doCrypto( password ), 
     gender,
     nickName: nickName ? nickName : userName
   });
-
+  
   return result.dataValues;
 }
 
