@@ -372,3 +372,12 @@ function get(key){
 ```
 
 在chrome中输入url: chrome://inspect
+
+## 格式校验
+
+`npm i ajv --save`
+
+
+## 加密
+
+`cryp`
