@@ -1,4 +1,8 @@
-const { registerUserNameNotExistInfo, registerFailInfo } = require('../model/ErrorInfo');
+const { 
+  registerUserNameNotExistInfo,
+  registerFailInfo,
+  loginFailInfo 
+} = require('../model/ErrorInfo');
 const { SuccessModel, ErrorModel } = require('../model/ResModel');
 const { getUserInfo, createUser } = require('../services/user');
 
@@ -42,7 +46,27 @@ async function register ({ userName, password, gender }) {
   };
 }
 
+/**
+ * @description
+ * @param {*} ctx 用于存储session
+ * @param {*} username
+ * @param {*} password
+ */
+async function login (ctx, userName, password) {
+  const userInfo = await getUserInfo(userName, password);
+  if ( !userInfo ) {
+    return new ErrorModel(loginFailInfo);
+  }
+  if (ctx.session.userInfo == null) {
+    ctx.session.userInfo = userInfo;
+    console.log('userInfo=================', userInfo, ctx.session);
+  }
+
+  return new SuccessModel();
+}
+
 module.exports = {
   isExist,
-  register
+  register,
+  login
 };

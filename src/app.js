@@ -32,7 +32,7 @@ app.use(bodyparser({
   enableTypes: ['json', 'form', 'text'],
 }));
 app.use(json()); // bodyparser解析完json是string, json()是转换成对象
-app.use(logger());
+// app.use(logger());
 app.use(require('koa-static')(`${__dirname  }/public`));
 
 app.use(views(`${__dirname  }/views`, {
@@ -51,7 +51,7 @@ app.use(async (ctx, next) => {
 app.keys = [SESSION_SECRET_KEY];
 app.use(session({
   key: 'weibo.sid', // cookie名字, 默认是koa.sid
-  prefix: 'weibo.sesssion:', // redis key的前缀, 默认是koa:sess:
+  prefix: 'weibo.sess:', // redis key的前缀, 默认是koa:sess:
   cookie: {
     path: '/',
     httpOnly: true,
@@ -62,6 +62,7 @@ app.use(session({
     all: `${REDIS_CONF.host}:${REDIS_CONF.port}`,
   }),
 }));
+
 
 // routes
 app.use(index.routes(), index.allowedMethods());

@@ -1,10 +1,11 @@
-const { register } = require('../../controller/user');
-const { isExist } = require('../../controller/user');
-const { genValidator } = require('../../middlewares/validator');
-const doCrypto = require('../../utils/cryp');
-const userValidate = require('../../validator/user');
-
 const router = require('koa-router')();
+const doCrypto = require('../../utils/cryp');
+const { register, 
+  isExist, 
+  login 
+} = require('../../controller/user');
+const { genValidator } = require('../../middlewares/validator');
+const userValidate = require('../../validator/user');
 
 router.prefix('/api/user');
 
@@ -12,8 +13,15 @@ router.prefix('/api/user');
 router.post('/register', genValidator(userValidate), async (ctx, next) => {
   const {userName, password, gender} = ctx.request.body;
 
-
   ctx.body = await register({userName, password, gender});
+});
+
+// 登录
+router.post('/login', async (ctx, next) => {
+  const { userName, password } = ctx.request.body;
+  console.log(ctx.request.body);
+
+  ctx.body = await login(ctx, userName, doCrypto(password) );
 });
 
 // 用户名是否存在
