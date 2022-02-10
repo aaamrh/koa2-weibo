@@ -1,3 +1,4 @@
+const path = require('path');
 const Koa = require('koa');
 
 const app = new Koa(); 
@@ -8,6 +9,7 @@ const bodyparser = require('koa-bodyparser');
 const logger = require('koa-logger');
 const session = require('koa-generic-session');
 const redisStore = require('koa-redis');
+const koaStatic = require('koa-static');
 
 const { REDIS_CONF } = require('./learn/redis/db');
 const { isProd } = require('./learn/redis/env');
@@ -15,6 +17,7 @@ const { isProd } = require('./learn/redis/env');
 const errorViewRouter = require('./routes/view/error');
 const userViewRouter = require('./routes/view/user');
 const userAPIRouter = require('./routes/api/user');
+const utilsAPIRouter = require('./routes/api/utils');
 const index = require('./routes/index');
 const { SESSION_SECRET_KEY } = require('./conf/secretKeys');
 
@@ -33,7 +36,8 @@ app.use(bodyparser({
 }));
 app.use(json()); // bodyparser解析完json是string, json()是转换成对象
 // app.use(logger());
-app.use(require('koa-static')(`${__dirname  }/public`));
+app.use(koaStatic(`${__dirname}/public`));
+app.use(koaStatic(path.join(__dirname, '..', 'uploadFiles')));
 
 app.use(views(`${__dirname  }/views`, {
   extension: 'ejs',
@@ -68,6 +72,7 @@ app.use(session({
 app.use(index.routes(), index.allowedMethods());
 app.use(userViewRouter.routes(), userViewRouter.allowedMethods());
 app.use(userAPIRouter.routes(), userAPIRouter.allowedMethods());
+app.use(utilsAPIRouter.routes(), utilsAPIRouter.allowedMethods());
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods());
 
 // error-handling 控制台打印错误

@@ -381,3 +381,14 @@ function get(key){
 ## 加密
 
 `cryp`
+
+
+## 文件上传
+
+保存图片用 `formidable-upload-koa`, 移动文件用 `fs-extra`
+
+```js
+
+
+
+```
