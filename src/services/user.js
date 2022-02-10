@@ -13,7 +13,7 @@ async function getUserInfo (userName, password) {
   };
 
   if(password){
-    Object.assign(whereOpt, {userName, password});
+    Object.assign(whereOpt, {userName, password}); // GET 学习了增加操作项的写法
   }
 
   const result = await User.findOne({
@@ -45,7 +45,22 @@ async function createUser ({ userName, password, gender=3, nickName }) {
   return result.dataValues;
 }
 
+/**
+ * @description 删除用户
+ * @param {*} userName
+ */
+async function deleteUser(userName) {
+  const result = await User.destroy({
+    where: {
+      userName
+    }
+  });
+  // result 是删除的行数
+  return result > 0;
+}
+
 module.exports = {
   getUserInfo,
-  createUser
+  createUser,
+  deleteUser
 };

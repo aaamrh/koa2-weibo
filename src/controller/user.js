@@ -1,10 +1,12 @@
 const { 
   registerUserNameNotExistInfo,
   registerFailInfo,
-  loginFailInfo 
+  loginFailInfo, 
+  deleteUserFailInfo,
+  registerUserNameExistInfo
 } = require('../model/ErrorInfo');
 const { SuccessModel, ErrorModel } = require('../model/ResModel');
-const { getUserInfo, createUser } = require('../services/user');
+const { getUserInfo, createUser, deleteUser } = require('../services/user');
 
 /**
  * @description 用户名是否存在
@@ -32,7 +34,7 @@ async function isExist(username){
 async function register ({ userName, password, gender }) {
   const userInfo = await getUserInfo(userName);
   if(userInfo){
-    return ErrorModel({registerNameNotExitInfo});
+    return new ErrorModel(registerUserNameExistInfo);
   }
 
   try {
@@ -59,14 +61,27 @@ async function login (ctx, userName, password) {
   }
   if (ctx.session.userInfo == null) {
     ctx.session.userInfo = userInfo;
-    console.log('userInfo=================', userInfo, ctx.session);
+    // console.log('userInfo=================', userInfo, ctx.session);
   }
 
   return new SuccessModel();
 }
 
+/**
+ * @description
+ * @param {*} userName
+ */
+async function deleteCurUser(userName) {
+  const result = await deleteUser(userName);
+  if (result) {
+    return new SuccessModel();
+  }
+  return new ErrorModel(deleteUserFailInfo);
+}
+
 module.exports = {
   isExist,
   register,
-  login
+  login,
+  deleteCurUser
 };
