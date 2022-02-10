@@ -3,10 +3,11 @@ const {
   registerFailInfo,
   loginFailInfo, 
   deleteUserFailInfo,
-  registerUserNameExistInfo
+  registerUserNameExistInfo,
+  changeInfoFailInfo
 } = require('../model/ErrorInfo');
 const { SuccessModel, ErrorModel } = require('../model/ResModel');
-const { getUserInfo, createUser, deleteUser } = require('../services/user');
+const { getUserInfo, createUser, deleteUser, updateUser } = require('../services/user');
 
 /**
  * @description 用户名是否存在
@@ -79,9 +80,43 @@ async function deleteCurUser(userName) {
   return new ErrorModel(deleteUserFailInfo);
 }
 
+/**
+ * @description 修改信息
+ * @param {*} ctx
+ * @param {*} { userName, city, picture }
+ */
+async function changeInfo (ctx, { nickName, city, picture }) {
+  const { userName } = ctx.session.userInfo;
+  if ( !nickName ) {
+    nickName = userName;
+  }
+
+  const result = await updateUser(
+    {
+      newNickName: nickName,
+      newCity: city,
+      newPicture: picture
+    },
+    { userName }
+  );
+  console.log(result);
+  if (result) {
+    // result
+    Object.assign(ctx.session.userInfo, {
+      nickName,
+      city,
+      picture
+    });
+    return new SuccessModel();
+  }
+  return new ErrorModel(changeInfoFailInfo);
+}
+
+
 module.exports = {
   isExist,
   register,
   login,
-  deleteCurUser
+  deleteCurUser,
+  changeInfo
 };
