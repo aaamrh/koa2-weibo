@@ -4,10 +4,12 @@ const {
   loginFailInfo, 
   deleteUserFailInfo,
   registerUserNameExistInfo,
-  changeInfoFailInfo
+  changeInfoFailInfo,
+  changePasswordFailInfo
 } = require('../model/ErrorInfo');
 const { SuccessModel, ErrorModel } = require('../model/ResModel');
 const { getUserInfo, createUser, deleteUser, updateUser } = require('../services/user');
+const doCrypto = require('../utils/cryp');
 
 /**
  * @description 用户名是否存在
@@ -113,10 +115,28 @@ async function changeInfo (ctx, { nickName, city, picture }) {
 }
 
 
+async function changePassword(userName, password, newPassword) {
+  const result = await updateUser(
+    {
+      newPassword: doCrypto(newPassword)
+    },
+    {
+      userName,
+      password: doCrypto(password)
+    }
+  );
+  if (result) {
+    return new SuccessModel();
+  }
+
+  return new ErrorModel(changePasswordFailInfo);
+}
+
 module.exports = {
   isExist,
   register,
   login,
   deleteCurUser,
-  changeInfo
+  changeInfo,
+  changePassword
 };
