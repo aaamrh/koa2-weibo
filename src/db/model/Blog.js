@@ -7,7 +7,7 @@ const Blog = seq.define('blog', {
     allowNull: false,
     comment: '用户 ID'
   },
-  comment: {
+  content: {
     type: TEXT,
     allowNull: false,
     comment: '微博内容'
