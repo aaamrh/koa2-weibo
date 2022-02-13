@@ -14,11 +14,11 @@ const koaStatic = require('koa-static');
 const { REDIS_CONF } = require('./learn/redis/db');
 const { isProd } = require('./learn/redis/env');
 
+const indexViewRouter = require('./routes/view/index');
 const errorViewRouter = require('./routes/view/error');
 const userViewRouter = require('./routes/view/user');
 const userAPIRouter = require('./routes/api/user');
 const utilsAPIRouter = require('./routes/api/utils');
-const index = require('./routes/index');
 const { SESSION_SECRET_KEY } = require('./conf/secretKeys');
 
 // error handler 页面上显示错误
@@ -69,7 +69,7 @@ app.use(session({
 
 
 // routes
-app.use(index.routes(), index.allowedMethods());
+app.use(indexViewRouter.routes(), indexViewRouter.allowedMethods());
 app.use(userViewRouter.routes(), userViewRouter.allowedMethods());
 app.use(userAPIRouter.routes(), userAPIRouter.allowedMethods());
 app.use(utilsAPIRouter.routes(), utilsAPIRouter.allowedMethods());
@@ -78,6 +78,6 @@ app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods());
 // error-handling 控制台打印错误
 app.on('error', (err, ctx) => {
   console.error('server error', err, ctx);
-});
+}); 
 
 module.exports = app;
