@@ -387,8 +387,6 @@ function get(key){
 
 保存图片用 `formidable-upload-koa`, 移动文件用 `fs-extra`
 
-```js
+## xss攻击的防范
 
-
-
-```
+`npm i xss -S`
