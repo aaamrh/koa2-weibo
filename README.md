@@ -390,3 +390,8 @@ function get(key){
 ## xss攻击的防范
 
 `npm i xss -S`
+
+## 时间处理
+
+`npm i date-fns -S`
+
