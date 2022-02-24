@@ -7,8 +7,18 @@ let MYSQL_CONF = {
   port: 3306,
   database: 'koa2_weibo_db'
 };
+let REDIS_CONF = {
+  port: 6379,
+  host: '127.0.0.1'
+};
 
 if(isProd){
+  REDIS_CONF = {
+    // 线上的 redis 配置
+    port: 6379,
+    host: '127.0.0.1'
+  };
+
   // 线上mysql配置
   MYSQL_CONF = {
     host: 'localhost',
@@ -20,5 +30,6 @@ if(isProd){
 }
 
 module.exports = {
-  MYSQL_CONF
+  MYSQL_CONF,
+  REDIS_CONF
 };

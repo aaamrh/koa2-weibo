@@ -11,9 +11,9 @@ const session = require('koa-generic-session');
 const redisStore = require('koa-redis');
 const koaStatic = require('koa-static');
 
-const { REDIS_CONF } = require('./learn/redis/db');
 const { isProd } = require('./learn/redis/env');
 
+const squareAPIRouter = require('./routes/api/blog-square');
 const profileAPIRouter = require('./routes/api/blog-profile');
 const HomeAPIRouter = require('./routes/api/blog-home');
 const BlogViewRouter = require('./routes/view/index');
@@ -22,6 +22,7 @@ const userViewRouter = require('./routes/view/user');
 const userAPIRouter = require('./routes/api/user');
 const utilsAPIRouter = require('./routes/api/utils');
 const { SESSION_SECRET_KEY } = require('./conf/secretKeys');
+const { REDIS_CONF } = require('./conf/db');
 
 // error handler 页面上显示错误
 let onerrorCong = {};
@@ -71,6 +72,7 @@ app.use(session({
 
 
 // routes
+app.use(squareAPIRouter.routes(),  squareAPIRouter.allowedMethods());
 app.use(profileAPIRouter.routes(), profileAPIRouter.allowedMethods());
 app.use(HomeAPIRouter.routes(),    HomeAPIRouter.allowedMethods());
 app.use(BlogViewRouter.routes(),   BlogViewRouter.allowedMethods());

@@ -395,3 +395,17 @@ function get(key){
 
 `npm i date-fns -S`
 
+## **错误处理**
+
+### redis 链接错误
+
+`(node:83504) UnhandledPromiseRejectionWarning: Error: The client is closed`
+
+  在Redis安装目录下 cmd 依次输入下面四条命令 即可
+  redis-cli.exe
+  shutdown
+  exit
+  redis-server.exe redis.windows.conf
+
+### redis-server 开机自启动
+`redis-server --service-install redis.windows-service.conf --loglevel verbose`
