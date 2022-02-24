@@ -14,6 +14,7 @@ const koaStatic = require('koa-static');
 const { REDIS_CONF } = require('./learn/redis/db');
 const { isProd } = require('./learn/redis/env');
 
+const profileAPIRouter = require('./routes/api/blog-profile');
 const HomeAPIRouter = require('./routes/api/blog-home');
 const BlogViewRouter = require('./routes/view/index');
 const errorViewRouter = require('./routes/view/error');
@@ -70,12 +71,13 @@ app.use(session({
 
 
 // routes
-app.use(HomeAPIRouter.routes(),   HomeAPIRouter.allowedMethods());
-app.use(BlogViewRouter.routes(),  BlogViewRouter.allowedMethods());
-app.use(userViewRouter.routes(),  userViewRouter.allowedMethods());
-app.use(userAPIRouter.routes(),   userAPIRouter.allowedMethods());
-app.use(utilsAPIRouter.routes(),  utilsAPIRouter.allowedMethods());
-app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods());
+app.use(profileAPIRouter.routes(), profileAPIRouter.allowedMethods());
+app.use(HomeAPIRouter.routes(),    HomeAPIRouter.allowedMethods());
+app.use(BlogViewRouter.routes(),   BlogViewRouter.allowedMethods());
+app.use(userViewRouter.routes(),   userViewRouter.allowedMethods());
+app.use(userAPIRouter.routes(),    userAPIRouter.allowedMethods());
+app.use(utilsAPIRouter.routes(),   utilsAPIRouter.allowedMethods());
+app.use(errorViewRouter.routes(),  errorViewRouter.allowedMethods());
 
 // error-handling 控制台打印错误
 app.on('error', (err, ctx) => {
