@@ -37,7 +37,6 @@ router.post('/isExist', async (ctx, next) => {
   ctx.body = await isExist(userName);
 });
 
-
 router.post('/delete', loginCheck, async (ctx, next) => {
   if (isTest) {
     const { userName } = ctx.session.userInfo;
